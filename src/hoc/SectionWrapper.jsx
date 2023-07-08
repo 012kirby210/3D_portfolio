@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { style } from '../style.js'
 
 import { staggerContainer } from "../utils/motion.js";
-import {findReturnStatement} from "eslint-plugin-react/lib/util/ast.js";
 
 const SectionWrapper = ( Component, idName) => {
     return function HOC() {
