@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import CanvasLoader from '../Loader';
 
-const Computers = () => {
+const Computers = ({isMobile}) => {
 
   const computer = useGLTF('./gaming_desktop/scene.gltf');
 
@@ -19,8 +19,8 @@ const Computers = () => {
         shadow-mapSize={1024}
       />
       <primitive object={computer.scene}
-        scale={0.75}
-        position={[0,-3.25, -1.5]}
+        scale={ isMobile ? 0.7 : 0.75}
+        position={isMobile ? [0,-3,-2.2] : [0,-3.25, -1.5]}
         rotation={[-0.00, 0.1, -0.15]}
       />
     </mesh>
@@ -28,6 +28,27 @@ const Computers = () => {
 }
 
 const ComputersCanvas = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect( () => {
+        const mediaQuery = window.matchMedia('' +
+            '(max-width: 500px)');
+        setIsMobile(mediaQuery.matches);
+
+        const handleMediaQueryChange = ( event ) => {
+            setIsMobile(event.matches);
+        }
+
+        // https://forum.freecodecamp.org/t/why-do-we-add-eventlisteners-in-useeffect-hook/494550/4
+        // Shadow replace -> DOM built -> effect -> make you stuff to the loaded DOM
+        // redraw => call return from useEffect and loop the part above
+        mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+        return () => {
+            mediaQuery.removeEventListener('change',handleMediaQueryChange);
+        }
+    }, []);
+
   return (
     <Canvas frameloop="demand"
             shadows
@@ -39,7 +60,7 @@ const ComputersCanvas = () => {
                      maxPolarAngle={Math.PI/2}
                      minPolarAngle={Math.PI/2}
       />
-      <Computers />
+      <Computers isMobile={isMobile}/>
     </Suspense>
       <Preload all />
     </Canvas>
