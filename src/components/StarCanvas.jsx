@@ -1,7 +1,5 @@
 import React from "react";
 
-const StarCanvas = () => {
-    return (<div>StarCanvas</div>);
-};
+import {StarsCanvas} from "./canvas/index.js";
 
-export default StarCanvas;
+export default StarsCanvas;
