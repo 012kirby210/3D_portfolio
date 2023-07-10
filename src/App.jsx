@@ -3,9 +3,7 @@ import { About, Contact, Experience, Feedbacks,
   Hero, Navbar, StarCanvas, Tech, Works
 } from './components/index.js';
 
-
 const App = () => {
-
   return (
     <BrowserRouter>
       <div className="relative bg-primary z-0">

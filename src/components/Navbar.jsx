@@ -7,10 +7,16 @@ import { NavLink } from "react-router-dom";
 import { logo, menu, close } from '../assets';
 import {navLinks} from "../constants/index.js";
 
+import { useTheme } from "./ThemeContext.jsx";
+import moon from '../assets/moon.svg';
+import sun from '../assets/sun.svg';
+
 const Navbar = () => {
 
     const [ active, setActive ] = useState("");
     const [ toggle, setToggle ] = useState(false);
+
+    const { theme, toggleTheme } = useTheme();
 
     const handleClickLink = () => {
         setActive('');
@@ -18,7 +24,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className={`${style.paddingX} w-full items-center py-5 fixed top-0 z-20 bg-primary`}>
+        <nav className={`${style.paddingX} w-full items-center py-5 fixed top-0 z-20 bg-white dark:bg-primary`}>
             <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
                 <Link to="/" className="flex items-center gap-2"
                       onClick={handleClickLink}>
@@ -35,6 +41,9 @@ const Navbar = () => {
                             <a href={`#${link.id}`}>{link.title}</a>
                         </li>
                     ))}
+                    <li className="flex justify-center items-center w-8 h-8" onClick={toggleTheme}>
+                       <img src={ "dark" === theme ? sun : moon } className="w-full h-full opacity-50 hover:opacity-100 cursor-pointer"/>
+                    </li>
                 </ul>
                 <div className="sm:hidden flex flex-1 justify-end items-center">
                     <img src={ toggle ? close : menu }
